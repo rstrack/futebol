@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +26,10 @@ public class Pagamento {
 
     @Column
     private BigDecimal valor;
+
+    @ManyToOne
+    @JoinColumn(name = "cod_jogador")
+    private Jogador jogador;
 
     public Pagamento(short ano, short mes, BigDecimal valor){
         this.ano = ano;
