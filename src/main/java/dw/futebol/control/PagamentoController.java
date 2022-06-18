@@ -21,7 +21,7 @@ import dw.futebol.model.*;
 
 @RestController
 @RequestMapping("/api")
-public class Controller {
+public class PagamentoController {
     
     @Autowired
     JogadorRepository jrep;
@@ -72,13 +72,5 @@ public class Controller {
         }
     }
 
-    @PostMapping("/jogadores")
-    public ResponseEntity<Jogador> createjogador(@RequestBody Jogador j){
-        try {
-            Jogador _j = jrep.save(new Jogador(j.getNome(), j.getEmail(), j.getDatanasc()));
-            return new ResponseEntity<>(_j, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    
 }
