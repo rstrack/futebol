@@ -25,6 +25,8 @@ public class Jogador {
     @Column
     private Date datanasc;
 
+    public Jogador(){}
+    
     public Jogador(String nome, String email, Date datanasc){
         this.nome=nome;
         this.email=email;

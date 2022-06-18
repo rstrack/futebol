@@ -31,10 +31,13 @@ public class Pagamento {
     @JoinColumn(name = "cod_jogador")
     private Jogador jogador;
 
-    public Pagamento(short ano, short mes, BigDecimal valor){
+    public Pagamento(){}
+
+    public Pagamento(short ano, short mes, BigDecimal valor, Jogador jogador){
         this.ano = ano;
         this.mes=mes;
         this.valor=valor;
+        this.jogador=jogador;
     }
 
     public short getAno() {
@@ -61,7 +64,12 @@ public class Pagamento {
         this.valor = valor;
     }
 
+    public Jogador getJogador() {
+        return this.jogador;
+    }
 
-
+    public void setJogador(Jogador jogador) {
+        this.jogador = jogador;
+    }
 
 }
