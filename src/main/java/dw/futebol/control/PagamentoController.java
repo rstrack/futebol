@@ -64,6 +64,7 @@ public class PagamentoController {
 
     @PostMapping("/pagamentos")
     public ResponseEntity<Pagamento> createPagamento(@RequestBody Pagamento p){
+        
         try {
             Pagamento _p = prep.save(new Pagamento(p.getAno(), p.getMes(), p.getValor(), p.getJogador())); //ver como passar o Jogador
             return new ResponseEntity<>(_p, HttpStatus.CREATED);

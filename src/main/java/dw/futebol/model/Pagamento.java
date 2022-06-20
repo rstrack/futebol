@@ -28,10 +28,12 @@ public class Pagamento {
     private BigDecimal valor;
 
     @ManyToOne
-    @JoinColumn(name = "cod_jogador")
+    @JoinColumn(name = "cod_jogador", nullable = false)
     private Jogador jogador;
 
-    public Pagamento(){}
+    public Pagamento(){
+
+    }
 
     public Pagamento(short ano, short mes, BigDecimal valor, Jogador jogador){
         this.ano = ano;

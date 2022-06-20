@@ -1,6 +1,7 @@
 package dw.futebol.model;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "jogador")
 public class Jogador {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cod_jogador;
@@ -25,7 +27,11 @@ public class Jogador {
     @Column
     private Date datanasc;
 
-    public Jogador(){}
+    public Jogador(){
+        this.nome= "";
+        this.email= "";
+        this.datanasc= new Date(Calendar.DAY_OF_MONTH);
+    }
     
     public Jogador(String nome, String email, Date datanasc){
         this.nome=nome;

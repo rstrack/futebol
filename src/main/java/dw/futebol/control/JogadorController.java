@@ -25,6 +25,7 @@ public class JogadorController {
 
     @GetMapping("/jogadores")
     public ResponseEntity<List<Jogador>> getAllJogadores(@RequestParam(required=false) String nome){
+        System.out.println("Esta aqui");
         try{
             List<Jogador> lj = new ArrayList<Jogador>();
 
