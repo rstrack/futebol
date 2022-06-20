@@ -16,10 +16,10 @@ public class Jogador {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cod_jogador;
 
-    @Column
+    @Column(length = 60)
     private String nome;
 
-    @Column
+    @Column(length = 60)
     private String email;
 
     @Column
