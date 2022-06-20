@@ -35,7 +35,7 @@ public class JogadorController {
             }
             if (lj.isEmpty())
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            
+
             return new ResponseEntity<>(lj, HttpStatus.OK); 
         }
         catch(Exception e){
@@ -43,7 +43,7 @@ public class JogadorController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
     @PostMapping("/jogadores")
     public ResponseEntity<Jogador> createjogador(@RequestBody Jogador j){
         try {
