@@ -1,5 +1,4 @@
 package dw.futebol.control;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +38,7 @@ public class JogadorController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @PostMapping("/jogadores")
     public ResponseEntity<Jogador> createjogador(@RequestBody Jogador j){
         try {
@@ -49,6 +48,7 @@ public class JogadorController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @PutMapping("/jogadores")
     public ResponseEntity<Jogador> updatejogador(@PathVariable("id") long id, @RequestBody Jogador j)
     {
@@ -67,6 +67,7 @@ public class JogadorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+
     @DeleteMapping("/jogadores")
     public ResponseEntity<HttpStatus> deletejogador(@PathVariable("id") long id)
     {
