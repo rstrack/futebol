@@ -13,10 +13,8 @@ import dw.futebol.repository.JogadorRepository;
 @RestController
 @RequestMapping("/api")
 public class JogadorController {
-    
     @Autowired
     JogadorRepository jrep;
-
     //listar todos os jogadores ou jogadores com nome (ou parte dele) passado por parametro
     @GetMapping("/jogadores")
     public ResponseEntity<List<Jogador>> getAllJogadores(@RequestParam(required=false) String nome){
@@ -70,7 +68,6 @@ public class JogadorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-
     //deletar um jogador
     @DeleteMapping("/jogadores/{cod_jogador}")
     public ResponseEntity<HttpStatus> deletejogador(@PathVariable("cod_jogador") long cod_jogador)
