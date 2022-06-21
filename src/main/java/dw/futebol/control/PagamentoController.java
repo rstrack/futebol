@@ -67,9 +67,9 @@ public class PagamentoController {
         }
     }
     @PutMapping("/pagamentos")
-    public ResponseEntity<Pagamento> updatePagamento(@PathVariable("id") long id, @RequestBody Pagamento p)
+    public ResponseEntity<Pagamento> updatePagamento(@PathVariable("cod_pagamento") long cod_pagamento, @RequestBody Pagamento p)
     {
-        Optional<Pagamento> data = prep.findById(id);
+        Optional<Pagamento> data = prep.findById(cod_pagamento);
 
         if (data.isPresent())
         {
@@ -89,10 +89,10 @@ public class PagamentoController {
     }
 
     @DeleteMapping("/pagamentos")
-    public ResponseEntity<HttpStatus> deletePagamento(@PathVariable("id") long id)
+    public ResponseEntity<HttpStatus> deletePagamento(@PathVariable("cod_pagamento") long cod_pagamento)
     {
         try {
-            jrep.deleteById(id);
+            jrep.deleteById(cod_pagamento);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         } catch (Exception e) {

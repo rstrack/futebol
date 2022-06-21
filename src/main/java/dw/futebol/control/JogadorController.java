@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import dw.futebol.model.Jogador;
 import dw.futebol.repository.JogadorRepository;
 
@@ -50,9 +49,9 @@ public class JogadorController {
     }
 
     @PutMapping("/jogadores")
-    public ResponseEntity<Jogador> updatejogador(@PathVariable("id") long id, @RequestBody Jogador j)
+    public ResponseEntity<Jogador> updatejogador(@PathVariable("cod_jogador") long cod_jogador, @RequestBody Jogador j)
     {
-        Optional<Jogador> data = jrep.findById(id);
+        Optional<Jogador> data = jrep.findById(cod_jogador);
 
         if (data.isPresent())
         {
@@ -69,10 +68,10 @@ public class JogadorController {
     }
 
     @DeleteMapping("/jogadores")
-    public ResponseEntity<HttpStatus> deletejogador(@PathVariable("id") long id)
+    public ResponseEntity<HttpStatus> deletejogador(@PathVariable("cod_jogador") long cod_jogador)
     {
         try {
-            jrep.deleteById(id);
+            jrep.deleteById(cod_jogador);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         } catch (Exception e) {
