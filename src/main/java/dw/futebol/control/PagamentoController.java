@@ -51,7 +51,7 @@ public class PagamentoController {
         }
     }
 
-    //pagamentos em determinado ano e mes
+    //listar pagamentos em determinado ano e mes
     @GetMapping("/pagamentos/{ano}/{mes}")
     public ResponseEntity<Pagamento> getPagamentoByAnoAndMes(@PathVariable("ano") short ano, @PathVariable("mes") short mes){
         Optional<Pagamento> pgs = prep.findByAnoAndMes(ano, mes);
@@ -62,6 +62,7 @@ public class PagamentoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    //adicionar pagamento de um jogador
     @PostMapping("/pagamentos")
     public ResponseEntity<Pagamento> createPagamento(@RequestBody Pagamento p){
         

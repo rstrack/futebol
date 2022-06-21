@@ -23,6 +23,7 @@ public class JogadorController {
     @Autowired
     JogadorRepository jrep;
 
+    //listar todos os jogadores ou jogadores com nome passado por parametro
     @GetMapping("/jogadores")
     public ResponseEntity<List<Jogador>> getAllJogadores(@RequestParam(required=false) String nome){
         try{
@@ -43,7 +44,8 @@ public class JogadorController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    //adicionar jogador
     @PostMapping("/jogadores")
     public ResponseEntity<Jogador> createjogador(@RequestBody Jogador j){
         try {
