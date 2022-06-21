@@ -1,7 +1,6 @@
 package dw.futebol.model;
 
 import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +25,10 @@ public class Jogador {
     @Column
     private Date datanasc;
     
+    public Jogador(){
+
+    }
+
     public Jogador(String nome, String email, Date datanasc){
         this.nome=nome;
         this.email=email;
