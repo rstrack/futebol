@@ -7,13 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import dw.futebol.repository.JogadorRepository;
 import dw.futebol.repository.PagamentoRepository;
@@ -72,6 +66,39 @@ public class PagamentoController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PutMapping("/pagamentos")
+    public ResponseEntity<Pagamento> updatePagamento(@PathVariable("id") long id, @RequestBody Pagamento p)
+    {
+        Optional<Pagamento> data = prep.findById(id);
 
+        if (data.isPresent())
+        {
+            Pagamento pag = data.get();
+            pag.setJogador(pag.getJogador());
+            pag.setValor(pag.getValor());
+            pag.setMes(pag.getMes());
+            pag.setAno(pag.getAno());
+
+
+
+            return new ResponseEntity<>(prep.save(pag), HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
+    @DeleteMapping("/pagamentos")
+    public ResponseEntity<HttpStatus> deletePagamento(@PathVariable("id") long id)
+    {
+        try {
+            jrep.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
     
 }

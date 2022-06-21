@@ -2,16 +2,12 @@ package dw.futebol.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import dw.futebol.model.Jogador;
 import dw.futebol.repository.JogadorRepository;
@@ -53,4 +49,36 @@ public class JogadorController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @PutMapping("/jogadores")
+    public ResponseEntity<Jogador> updatejogador(@PathVariable("id") long id, @RequestBody Jogador j)
+    {
+        Optional<Jogador> data = jrep.findById(id);
+
+        if (data.isPresent())
+        {
+            Jogador jog = data.get();
+            jog.setNome(jog.getNome());
+            jog.setEmail(jog.getEmail());
+            jog.setDatanasc(jog.getDatanasc());
+
+            return new ResponseEntity<>(jrep.save(jog), HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+    @DeleteMapping("/jogadores")
+    public ResponseEntity<HttpStatus> deletejogador(@PathVariable("id") long id)
+    {
+        try {
+            jrep.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
 }
