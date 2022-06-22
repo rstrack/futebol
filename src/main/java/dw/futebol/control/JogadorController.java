@@ -50,17 +50,17 @@ public class JogadorController {
     }
 
     //modificar dados de um jogador 
-    @PutMapping("/jogadores/{id}")
-    public ResponseEntity<Jogador> updatejogador(@PathVariable("id") long id, @RequestBody Jogador j)
+    @PutMapping("/jogadores/{cod_jogador}")
+    public ResponseEntity<Jogador> Put(@PathVariable("cod_jogador") long cod_jogador, @RequestBody Jogador j)
     {
-        Optional<Jogador> data = jrep.findById(id);
+        Optional<Jogador> data = jrep.findById(cod_jogador);
 
         if (data.isPresent())
         {
             Jogador jog = data.get();
-            jog.setNome(jog.getNome());
-            jog.setEmail(jog.getEmail());
-            jog.setDatanasc(jog.getDatanasc());
+            jog.setNome(j.getNome());
+            jog.setEmail(j.getEmail());
+            jog.setDatanasc(j.getDatanasc());
 
             return new ResponseEntity<>(jrep.save(jog), HttpStatus.OK);
         }
