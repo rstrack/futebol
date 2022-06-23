@@ -11,5 +11,7 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long>{
 
     List<Pagamento> findByJogador(Jogador jogador);
 
+    List<Pagamento> findByAno(short ano);
+
     List<Pagamento> findByAnoAndMes(short ano, short mes);
 }

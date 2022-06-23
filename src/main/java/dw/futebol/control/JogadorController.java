@@ -11,12 +11,14 @@ import dw.futebol.model.Jogador;
 import dw.futebol.repository.JogadorRepository;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/jogador")
 public class JogadorController {
+    
     @Autowired
     JogadorRepository jrep;
+
     //listar todos os jogadores ou jogadores com nome (ou parte dele) passado por parametro
-    @GetMapping("/jogadores")
+    @GetMapping()
     public ResponseEntity<List<Jogador>> getAllJogadores(@RequestParam(required=false) String nome){
         try{
             List<Jogador> lj = new ArrayList<Jogador>();
@@ -37,21 +39,39 @@ public class JogadorController {
         }
     }
 
+    //listar jogador por codigo
+    @GetMapping("/{cod_jogador}")
+    public ResponseEntity<Jogador> getJogador(@PathVariable("cod_jogador") long cod_jogador){
+        try{
+            Optional<Jogador> data = jrep.findById(cod_jogador);
+
+            if(data.isPresent()){
+                return new ResponseEntity<Jogador>(data.get(), HttpStatus.OK); 
+            }
+
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     //adicionar jogador
     //Pode haver erro em datas devido ao fuso horário
-    @PostMapping("/jogadores")
-    public ResponseEntity<Jogador> createjogador(@RequestBody Jogador j){
+    @PostMapping()
+    public ResponseEntity<Jogador> createJogador(@RequestBody Jogador j){
         try {
-            Jogador _j = jrep.save(new Jogador(j.getNome(), j.getEmail(), j.getDatanasc()));
-            return new ResponseEntity<>(_j, HttpStatus.CREATED);
+            Jogador jog = jrep.save(new Jogador(j.getNome(), j.getEmail(), j.getDatanasc()));
+            return new ResponseEntity<>(jog, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //modificar dados de um jogador 
-    @PutMapping("/jogadores/{cod_jogador}")
-    public ResponseEntity<Jogador> Put(@PathVariable("cod_jogador") long cod_jogador, @RequestBody Jogador j)
+    @PutMapping("/{cod_jogador}")
+    public ResponseEntity<Jogador> updateJogador(@PathVariable("cod_jogador") long cod_jogador, @RequestBody Jogador j)
     {
         Optional<Jogador> data = jrep.findById(cod_jogador);
 
@@ -68,9 +88,10 @@ public class JogadorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
+
     //deletar um jogador
-    @DeleteMapping("/jogadores/{cod_jogador}")
-    public ResponseEntity<HttpStatus> deletejogador(@PathVariable("cod_jogador") long cod_jogador)
+    @DeleteMapping("/{cod_jogador}")
+    public ResponseEntity<HttpStatus> deleteJogador(@PathVariable("cod_jogador") long cod_jogador)
     {
         try {
             jrep.deleteById(cod_jogador);

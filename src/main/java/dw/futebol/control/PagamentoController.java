@@ -14,7 +14,7 @@ import dw.futebol.repository.PagamentoRepository;
 import dw.futebol.model.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/pagamento")
 public class PagamentoController {
     
     @Autowired
@@ -24,7 +24,7 @@ public class PagamentoController {
     PagamentoRepository prep;
 
     //LISTAR TODOS OS PAGAMENTOS OU PAGAMENTOS DE UM DETERMINADO JOGADOR (PELO NOME)
-    @GetMapping("/pagamentos")
+    @GetMapping()
     public ResponseEntity<List<Pagamento>> getAllPagamentos(@RequestParam(required=false) String nome){
         try{
             List<Pagamento> lp = new ArrayList<Pagamento>();
@@ -46,7 +46,7 @@ public class PagamentoController {
     }
 
     //listar pagamentos em determinado ano e mes
-    @GetMapping("/pagamentos/{ano}/{mes}")
+    @GetMapping("/{ano}/{mes}")
     public ResponseEntity<List<Pagamento>> getPagamentoByAnoAndMes(@PathVariable("ano") short ano, @PathVariable("mes") short mes){
         
         try{
@@ -63,31 +63,50 @@ public class PagamentoController {
         }
     }
 
+    //listar pagamentos em determinado ano
+    @GetMapping("/{ano}")
+    public ResponseEntity<List<Pagamento>> getPagamentoByAno(@PathVariable("ano") short ano){
+        
+        try{
+            List<Pagamento> pgs = prep.findByAno(ano);
+
+            if (pgs.isEmpty())
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            return new ResponseEntity<>(pgs, HttpStatus.OK); 
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     //adicionar pagamento de um jogador
-    @PostMapping("/pagamentos")
+    @PostMapping()
     public ResponseEntity<Pagamento> createPagamento(@RequestBody Pagamento p){
         
         try {
-            Pagamento _p = prep.save(new Pagamento(p.getAno(), p.getMes(), p.getValor(), p.getJogador()));
-            return new ResponseEntity<>(_p, HttpStatus.CREATED);
+            Pagamento pag = prep.save(new Pagamento(p.getAno(), p.getMes(), p.getValor(), p.getJogador()));
+            return new ResponseEntity<>(pag, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //atualizar dados de um pagamento
-    @PutMapping("/pagamentos/{id}")
-    public ResponseEntity<Pagamento> updatePagamento(@PathVariable("id") long id, @RequestBody Pagamento p)
+    @PutMapping("/{cod_pagamento}")
+    public ResponseEntity<Pagamento> updatePagamento(@PathVariable("cod_pagamento") long cod_pagamento, @RequestBody Pagamento p)
     {
-        Optional<Pagamento> data = prep.findById(id);
+        Optional<Pagamento> data = prep.findById(cod_pagamento);
 
         if (data.isPresent())
         {
             Pagamento pag = data.get();
-            pag.setJogador(pag.getJogador());
-            pag.setValor(pag.getValor());
-            pag.setMes(pag.getMes());
-            pag.setAno(pag.getAno());
+            pag.setAno(p.getAno());
+            pag.setMes(p.getMes());
+            pag.setValor(p.getValor());
+            pag.setJogador(p.getJogador());
+            
             return new ResponseEntity<>(prep.save(pag), HttpStatus.OK);
         }
         else
@@ -96,7 +115,7 @@ public class PagamentoController {
     }
 
     //deletar um pagamento
-    @DeleteMapping("/pagamentos/{cod_pagamento}")
+    @DeleteMapping("/{cod_pagamento}")
     public ResponseEntity<HttpStatus> deletePagamento(@PathVariable("cod_pagamento") long cod_pagamento)
     {
         try {
@@ -108,5 +127,4 @@ public class PagamentoController {
         }
 
     }
-    
 }
