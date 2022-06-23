@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "pagamento")
@@ -30,6 +31,9 @@ public class Pagamento {
     @ManyToOne
     @JoinColumn(name = "cod_jogador", nullable = false)
     private Jogador jogador;
+
+    @Transient
+    private Long idJogador;
 
     public Pagamento(){
 
@@ -72,6 +76,10 @@ public class Pagamento {
 
     public void setJogador(Jogador jogador) {
         this.jogador = jogador;
+    }
+
+    public Long getIdJogador() {
+        return this.idJogador;
     }
 
 }

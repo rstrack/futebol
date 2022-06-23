@@ -1,11 +1,16 @@
 package dw.futebol.model;
 
 import java.sql.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +30,9 @@ public class Jogador {
     @Column
     private Date datanasc;
     
+    @OneToMany(mappedBy = "jogador", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Pagamento> pagamentos;
+    
     public Jogador(){
 
     }
@@ -33,6 +41,14 @@ public class Jogador {
         this.nome=nome;
         this.email=email;
         this.datanasc=datanasc;
+        this.pagamentos = null;
+    }
+
+    public Jogador(String nome, String email, Date datanasc, List<Pagamento> pagamentos){
+        this.nome=nome;
+        this.email=email;
+        this.datanasc=datanasc;
+        this.pagamentos = pagamentos;
     }
 
     public String getNome() {
