@@ -94,7 +94,7 @@ public class PagamentoController {
     }
 
     //atualizar dados de um pagamento
-    @PutMapping("/{cod_pagamento}")
+    @PutMapping("/pagamentos/{cod_pagamento}")
     public ResponseEntity<Pagamento> updatePagamento(@PathVariable("cod_pagamento") long cod_pagamento, @RequestBody Pagamento p)
     {
         Optional<Pagamento> data = prep.findById(cod_pagamento);
@@ -102,11 +102,10 @@ public class PagamentoController {
         if (data.isPresent())
         {
             Pagamento pag = data.get();
-            pag.setAno(p.getAno());
-            pag.setMes(p.getMes());
-            pag.setValor(p.getValor());
             pag.setJogador(p.getJogador());
-            
+            pag.setValor(p.getValor());
+            pag.setMes(p.getMes());
+            pag.setAno(p.getAno());
             return new ResponseEntity<>(prep.save(pag), HttpStatus.OK);
         }
         else
